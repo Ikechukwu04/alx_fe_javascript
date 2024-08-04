@@ -1,11 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
     const quotesKey = 'quotes';
     const categoryKey = 'selectedCategory';
-    let quotes = loadQuotesFromLocalStorage() || [
-        { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Motivation" },
-        { text: "Do not wait to strike till the iron is hot; but make it hot by striking.", category: "Action" },
-        { text: "Great minds discuss ideas; average minds discuss events; small minds discuss people.", category: "Wisdom" }
-    ];
+    let quotes = [];
+
+    // Fetch quotes from the mock server
+    async function fetchQuotesFromServer() {
+        try {
+            const response = await fetch('quotes.json');
+            const serverQuotes = await response.json();
+            return serverQuotes;
+        } catch (error) {
+            console.error('Error fetching quotes from server:', error);
+            return [];
+        }
+    }
+
+    // Sync local quotes with the server
+    async function syncQuotesWithServer() {
+        const serverQuotes = await fetchQuotesFromServer();
+        const localQuotes = loadQuotesFromLocalStorage() || [];
+        quotes = resolveConflicts(localQuotes, serverQuotes);
+        saveQuotesToLocalStorage();
+        populateCategories();
+        showRandomQuote();
+    }
+
+    // Resolve conflicts between local and server quotes
+    function resolveConflicts(localQuotes, serverQuotes) {
+        const combinedQuotes = [...serverQuotes];
+        localQuotes.forEach(localQuote => {
+            if (!serverQuotes.some(serverQuote => JSON.stringify(serverQuote) === JSON.stringify(localQuote))) {
+                combinedQuotes.push(localQuote);
+            }
+        });
+        return combinedQuotes;
+    }
 
     // Function to save quotes to local storage
     function saveQuotesToLocalStorage() {
@@ -30,6 +59,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to display a random quote
     function showRandomQuote() {
         const filteredQuotes = getFilteredQuotes();
+        if (filteredQuotes.length === 0) {
+            const quoteDisplay = document.getElementById('quote-display');
+            quoteDisplay.innerHTML = `<p>No quotes available in this category.</p>`;
+            return;
+        }
         const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
         const randomQuote = filteredQuotes[randomIndex];
         const quoteDisplay = document.getElementById('quote-display');
@@ -135,9 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial setup
     createAddQuoteForm();
-    populateCategories();
-
-    showRandomQuote();
+    syncQuotesWithServer();
 
     // Event listener for showing a random quote
     const randomQuoteButton = document.getElementById('show-random-quote');
@@ -154,3 +186,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const categorySelect = document.getElementById('category-select');
     categorySelect.addEventListener('change', filterQuotes);
 });
+
+[
+    { "text": "The only limit to our realization of tomorrow is our doubts of today.", "category": "Motivation" },
+    { "text": "Do not wait to strike till the iron is hot; but make it hot by striking.", "category": "Action" },
+    { "text": "Great minds discuss ideas; average minds discuss events; small minds discuss people.", "category": "Wisdom" }
+]
