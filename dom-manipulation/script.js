@@ -68,3 +68,54 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const quotes = [
+        { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Motivation" },
+        { text: "Do not wait to strike till the iron is hot; but make it hot by striking.", category: "Action" },
+        { text: "Great minds discuss ideas; average minds discuss events; small minds discuss people.", category: "Wisdom" }
+    ];
+
+    // Function to display a random quote
+    function showRandomQuote() {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const randomQuote = quotes[randomIndex];
+        const quoteDisplay = document.getElementById('quote-display');
+        quoteDisplay.innerHTML = `<p>${randomQuote.text}</p><p><em>${randomQuote.category}</em></p>`;
+    }
+
+    // Function to create the form to add new quotes
+    function createAddQuoteForm() {
+        const formContainer = document.getElementById('form-container');
+        formContainer.innerHTML = `
+            <h2>Add a New Quote</h2>
+            <form id="add-quote-form">
+                <input type="text" id="quote-text" placeholder="Quote text" required>
+                <input type="text" id="quote-category" placeholder="Category" required>
+                <button type="submit">Add Quote</button>
+            </form>
+        `;
+
+        const addQuoteForm = document.getElementById('add-quote-form');
+        addQuoteForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const quoteText = document.getElementById('quote-text').value.trim();
+            const quoteCategory = document.getElementById('quote-category').value.trim();
+
+            if (quoteText && quoteCategory) {
+                quotes.push({ text: quoteText, category: quoteCategory });
+                alert('Quote added successfully!');
+                addQuoteForm.reset();
+            } else {
+                alert('Please enter both the quote text and the category.');
+            }
+        });
+    }
+
+    // Initial setup
+    createAddQuoteForm();
+    showRandomQuote();
+
+    // Event listener for showing a random quote
+    const randomQuoteButton = document.getElementById('show-random-quote');
+    randomQuoteButton.addEventListener('click', showRandomQuote);
+});
