@@ -225,3 +225,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const importInput = document.getElementById('import-quotes');
     importInput.addEventListener('change', importQuotesFromJSON);
 });
+    // Function to import quotes from JSON
+    function importQuotesFromJSON(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedQuotes = JSON.parse(e.target.result);
+                if (Array.isArray(importedQuotes)) {
+                    quotes = [...quotes, ...importedQuotes];
+                    saveQuotesToLocalStorage();
+                    alert('Quotes imported successfully!');
+                } else {
+                    alert('Invalid JSON format.');
+                }
+            } catch (error) {
+                alert('Error reading the file.');
+            }
+        };
+        reader.readAsText(file);
+    }
