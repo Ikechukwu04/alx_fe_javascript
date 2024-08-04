@@ -115,6 +115,23 @@ document.addEventListener('DOMContentLoaded', function() {
             categorySelect.appendChild(option);
         });
     }
+ // Function to populate category options in the dropdown
+ function populateCategories() {
+    const categories = [...new Set(quotes.map(quote => quote.category))];
+    const categorySelect = document.getElementById('category-select');
+    categorySelect.innerHTML = '<option value="All">All</option>';
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
+    });
+
+    const savedCategory = loadSelectedCategory();
+    if (savedCategory) {
+        categorySelect.value = savedCategory;
+    }
+}
 
     // Function to get quotes based on the selected category
     function getFilteredQuotes() {
