@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (quoteText && quoteCategory) {
                 quotes.push({ text: quoteText, category: quoteCategory });
                 saveQuotesToLocalStorage();
-                updateCategoryOptions();
+                populateCategories();
                 alert('Quote added successfully!');
                 addQuoteForm.reset();
             } else {
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (Array.isArray(importedQuotes)) {
                     quotes = [...quotes, ...importedQuotes];
                     saveQuotesToLocalStorage();
-                    updateCategoryOptions();
+                    populateCategories();
                     alert('Quotes imported successfully!');
                 } else {
                     alert('Invalid JSON format.');
@@ -103,8 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.readAsText(file);
     }
 
-    // Function to update category options in the dropdown
-    function updateCategoryOptions() {
+    // Function to populate category options in the dropdown
+    function populateCategories() {
         const categories = [...new Set(quotes.map(quote => quote.category))];
         const categorySelect = document.getElementById('category-select');
         categorySelect.innerHTML = '<option value="All">All</option>';
@@ -114,24 +114,12 @@ document.addEventListener('DOMContentLoaded', function() {
             option.textContent = category;
             categorySelect.appendChild(option);
         });
-    }
- // Function to populate category options in the dropdown
- function populateCategories() {
-    const categories = [...new Set(quotes.map(quote => quote.category))];
-    const categorySelect = document.getElementById('category-select');
-    categorySelect.innerHTML = '<option value="All">All</option>';
-    categories.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category;
-        option.textContent = category;
-        categorySelect.appendChild(option);
-    });
 
-    const savedCategory = loadSelectedCategory();
-    if (savedCategory) {
-        categorySelect.value = savedCategory;
+        const savedCategory = loadSelectedCategory();
+        if (savedCategory) {
+            categorySelect.value = savedCategory;
+        }
     }
-}
 
     // Function to get quotes based on the selected category
     function getFilteredQuotes() {
@@ -147,12 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial setup
     createAddQuoteForm();
-    updateCategoryOptions();
-
-    const savedCategory = loadSelectedCategory();
-    if (savedCategory) {
-        document.getElementById('category-select').value = savedCategory;
-    }
+    populateCategories();
 
     showRandomQuote();
 
