@@ -186,9 +186,3 @@ document.addEventListener('DOMContentLoaded', function() {
     const categorySelect = document.getElementById('category-select');
     categorySelect.addEventListener('change', filterQuotes);
 });
-
-[
-    { "text": "The only limit to our realization of tomorrow is our doubts of today.", "category": "Motivation" },
-    { "text": "Do not wait to strike till the iron is hot; but make it hot by striking.", "category": "Action" },
-    { "text": "Great minds discuss ideas; average minds discuss events; small minds discuss people.", "category": "Wisdom" }
-]
