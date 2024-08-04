@@ -2,17 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dynamic Quote Generator</title>
+    <title>Quote Manager</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="quotecontainer">
-        <h1>Notes</h1>
-        <input type="text" id="new-note" placeholder="Enter a new note">
-        <button id="add-note">Add Note</button>
-        <ul id="notes-list"></ul>
+    <div id="app-container">
+        <h1>Quote Manager</h1>
+        <select id="category-select">
+            <option value="All">All</option>
+        </select>
+        <button id="show-random-quote">Show Random Quote</button>
         <div id="quote-display"></div>
         <div id="form-container"></div>
+        <div id="import-export-container">
+            <h2>Import/Export Quotes</h2>
+            <button id="export-quotes">Export Quotes</button>
+            <input type="file" id="import-quotes" accept="application/json">
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
