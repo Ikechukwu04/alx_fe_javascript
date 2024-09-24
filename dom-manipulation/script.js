@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const quotesKey = 'quotes';
-    const categoryKey = 'selectedCategory';
+    const categoryKey = 'categoryFilter';
     let quotes = [];
 
     // Fetch quotes from the mock server
@@ -47,12 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Function to save the selected category to local storage
-    function saveSelectedCategory(category) {
+    function savecategoryFilter(category) {
         localStorage.setItem(categoryKey, category);
     }
 
     // Function to load the selected category from local storage
-    function loadSelectedCategory() {
+    function loadcategoryFilter() {
         return localStorage.getItem(categoryKey);
     }
 
@@ -143,8 +143,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to populate category options in the dropdown
     function populateCategories() {
         const categories = [...new Set(quotes.map(quote => quote.category))];
-        const categorySelect = document.getElementById('category-select');
-        categorySelect.innerHTML = '<option value="All">All</option>';
+        const categoryFilter = document.getElementById('category-select');
+       categoryFilter.innerHTML = '<option value="All">All</option>';
         categories.forEach(category => {
             const option = document.createElement('option');
             option.value = category;
@@ -160,13 +160,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to get quotes based on the selected category
     function getFilteredQuotes() {
-        const selectedCategory = document.getElementById('category-select').value;
-        return selectedCategory === 'All' ? quotes : quotes.filter(quote => quote.category === selectedCategory);
+        const categoryFilter = document.getElementById('category-select').value;
+        return categoryFilter === 'All' ? quotes : quotes.filter(quote => quote.category === selectedCategory);
     }
 
     // Function to filter quotes based on the selected category
     function filterQuotes() {
-        saveSelectedCategory(document.getElementById('category-select').value);
+        savecategoryFilter(document.getElementById('category-select').value);
         showRandomQuote();
     }
 
