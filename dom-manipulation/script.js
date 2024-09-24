@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const quotesKey = 'quotes';
     const categoryKey = 'categoryFilter';
+     const apiEndpoint = 'https://jsonplaceholder.typicode.com/posts';
     let quotes = [];
 
     // Fetch quotes from the mock server
@@ -14,7 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return [];
         }
     }
-        // Fetch posts from the JSONPlaceholder API
+      
+    
+    // Fetch posts from the JSONPlaceholder API
     async function fetchPostsFromAPI() {
         try {
             const response = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -48,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error submitting quote:', error);
         }
     }
-    // Sync local quotes with the server
+    // Sync local quotes with the server Quotes synced with server!
     async function syncQuotesWithServer() {
         const serverQuotes = await fetchQuotesFromServer();
         const localQuotes = loadQuotesFromLocalStorage() || [];
