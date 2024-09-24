@@ -89,11 +89,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const quoteCategory = document.getElementById('quote-category').value.trim();
 
             if (quoteText && quoteCategory) {
-                quotes.push({ text: quoteText, category: quoteCategory });
-                saveQuotesToLocalStorage();
-                populateCategories();
+                // Create a new quote object and add it to the quotes array
+                const newQuote = { text: quoteText, category: quoteCategory };
+                quotes.push(newQuote);
+                saveQuotesToLocalStorage(); // Save updated quotes to local storage
+                populateCategories(); // Update categories
                 alert('Quote added successfully!');
-                addQuoteForm.reset();
+                addQuoteForm.reset(); // Reset the form
+                showRandomQuote(); // Show a random quote after adding
             } else {
                 alert('Please enter both the quote text and the category.');
             }
@@ -123,9 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const importedQuotes = JSON.parse(e.target.result);
                 if (Array.isArray(importedQuotes)) {
-                    quotes = [...quotes, ...importedQuotes];
-                    saveQuotesToLocalStorage();
-                    populateCategories();
+                    quotes = [...quotes, ...importedQuotes]; // Add imported quotes
+                    saveQuotesToLocalStorage(); // Save to local storage
+                    populateCategories(); // Update categories
                     alert('Quotes imported successfully!');
                 } else {
                     alert('Invalid JSON format.');
