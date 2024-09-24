@@ -26,6 +26,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+      // Function to submit a new quote to the server
+    async function submitQuoteToServer(quote) {
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(quote),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit quote');
+            }
+
+            const data = await response.json();
+            console.log('Quote submitted successfully:', data);
+            return data; // Return the response from the server
+        } catch (error) {
+            console.error('Error submitting quote:', error);
+        }
+    }
     // Sync local quotes with the server
     async function syncQuotesWithServer() {
         const serverQuotes = await fetchQuotesFromServer();
