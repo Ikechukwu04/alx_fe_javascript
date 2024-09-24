@@ -14,6 +14,17 @@ document.addEventListener('DOMContentLoaded', function() {
             return [];
         }
     }
+        // Fetch posts from the JSONPlaceholder API
+    async function fetchPostsFromAPI() {
+        try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+            const posts = await response.json();
+            return posts;
+        } catch (error) {
+            console.error('Error fetching posts from API:', error);
+            return [];
+        }
+    }
 
     // Sync local quotes with the server
     async function syncQuotesWithServer() {
