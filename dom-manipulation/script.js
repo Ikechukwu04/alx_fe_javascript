@@ -221,4 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for category selection
     const categorySelect = document.getElementById('category-select');
     categorySelect.addEventListener('change', filterQuotes);
+    
+    // Automatically refresh the display of quotes every 10 seconds
+    setInterval(showRandomQuote, 10000); // Change the interval as needed (10000 ms = 10 seconds)
 });
